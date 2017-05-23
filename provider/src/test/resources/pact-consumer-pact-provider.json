@@ -1,0 +1,49 @@
+{
+    "provider": {
+        "name": "pact-provider"
+    },
+    "consumer": {
+        "name": "pact-consumer"
+    },
+    "interactions": [
+        {
+            "description": "Provider Example Request",
+            "request": {
+                "method": "GET",
+                "path": "/Songs"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": [
+                    {
+                        "number": 1,
+                        "title": "Prologue (If I Ever Lose My Faith in You)"
+                    },
+                    {
+                        "number": 2,
+                        "title": "Fields of Gold"
+                    },
+                    {
+                        "number": 3,
+                        "title": "One"
+                    },
+                    {
+                        "number": 4,
+                        "title": "Mysterious Ways"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "2.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.3.6"
+        }
+    }
+}
