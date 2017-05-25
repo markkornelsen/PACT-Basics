@@ -1,0 +1,49 @@
+{
+    "provider": {
+        "name": "pact-provider"
+    },
+    "consumer": {
+        "name": "pact-consumer"
+    },
+    "interactions": [
+        {
+            "description": "Provider Example Request",
+            "request": {
+                "method": "GET",
+                "path": "/Songs"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": [
+                    {
+                        "number": 2,
+                        "title": "VlsocMhOTxUkHqrHBwhi"
+                    }
+                ],
+                "matchingRules": {
+                    "$.body[*].title": {
+                        "match": "type"
+                    },
+                    "$.body": {
+                        "min": 0,
+                        "match": "type"
+                    },
+                    "$.body[*].number": {
+                        "match": "integer"
+                    }
+                }
+            }
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "2.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.3.6"
+        }
+    }
+}

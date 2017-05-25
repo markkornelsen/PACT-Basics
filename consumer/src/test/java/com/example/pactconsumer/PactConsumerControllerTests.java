@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +13,7 @@ public class PactConsumerControllerTests {
 	private String url = "http://localhost:8005";
 	Logger log = Logger.getLogger(PactConsumerApplication.class.getName());
 
+	@Ignore
 	@Test
 	public void testGetForObjectString() {
 		String entity = new RestTemplate().getForObject(url + "/Song", String.class);
@@ -19,6 +21,7 @@ public class PactConsumerControllerTests {
 		assertTrue("getForObjectString()", entity.contains("Mysterious Ways"));
 	}
 
+	@Ignore
 	@Test
 	public void testGetForObjectSong() {
 
@@ -27,6 +30,7 @@ public class PactConsumerControllerTests {
 		assertTrue("getForObjectSong()", song.getTitle().equals("Mysterious Ways"));
 	}
 
+	@Ignore
 	@Test
 	public void testGetForObjectSongList() {
 		PactConsumerSong[] songs = new RestTemplate().getForObject(url + "/Songs", PactConsumerSong[].class);
@@ -34,6 +38,7 @@ public class PactConsumerControllerTests {
 		assertTrue("GetForObjectSongList()", songs[0].getTitle().equals("Prologue (If I Ever Lose My Faith in You)"));
 	}
 
+	@Ignore
 	@Test
 	public void testGetForObjectAlbum() {
 		PactConsumerAlbum album = new RestTemplate().getForObject(url + "/Album", PactConsumerAlbum.class);
@@ -41,6 +46,7 @@ public class PactConsumerControllerTests {
 		assertTrue("", album.getSong(8).getTitle().equals("Mysterious Ways"));
 	}
 
+	@Ignore
 	@Test
 	public void testGetForObjectAlbumList() {
 		PactConsumerAlbum[] albums = new RestTemplate().getForObject(url + "/Albums", PactConsumerAlbum[].class);
@@ -48,6 +54,7 @@ public class PactConsumerControllerTests {
 		assertTrue("GetForObjectAlbumList()", albums[1].getSong(8).getTitle().equals("Mysterious Ways"));
 	}
 
+	@Ignore
 	@Test
 	public void testGetForObjectNull() {
 		PactConsumerAlbum[] albums = new RestTemplate().getForObject(url + "/Albums", PactConsumerAlbum[].class);
