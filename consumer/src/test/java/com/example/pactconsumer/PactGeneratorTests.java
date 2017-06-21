@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.PactProviderRule;
@@ -27,14 +31,10 @@ public class PactGeneratorTests {
 		headers.put("Content-Type", "application/json");
 
 		return builder.uponReceiving("Provider Example Request")
-				.path("/Songs")
-				.method("GET")
-				.willRespondWith()
-				.headers(headers)
-				.status(200)
-				.body(	PactDslJsonArray.arrayEachLike()
+				.path("/Songs").method("POST").willRespondWith()
+				.headers(headers).status(200)
+				.body(PactDslJsonArray.arrayEachLike()
 						.stringType("title")
-						.integerType("number", 2)
 						.closeObject())
 				.toFragment();
 	}
@@ -43,16 +43,29 @@ public class PactGeneratorTests {
 	@PactVerification("pact-provider")
 	public void runTest() {
 
-		assertEquals(new PactConsumerClient(rule.getConfig().url()).consumerSongs(),
-		Arrays.asList(new PactConsumerSong("Prologue (If I Ever Lose My Faith in You)", 2)));
+		String url = rule.getConfig().url();
 
-//		 assertEquals(new
-//		 PactConsumerClient(rule.getConfig().url()).consumerSongs(),
-//		 Arrays.asList(new PactConsumerSong("Prologue (If I Ever Lose My Faith in You)", 1),
-//		 new PactConsumerSong("Fields of Gold", 2),
-//		 new PactConsumerSong("One", 3),
-//		 new PactConsumerSong("Mysterious Ways", 4)
-//		 ));
+		ParameterizedTypeReference<List<PactConsumerSong>> responseType = 
+				new ParameterizedTypeReference<List<PactConsumerSong>>() {};
+		List<PactConsumerSong> songs = new RestTemplate().exchange(
+				url + "/Songs", 
+				HttpMethod.POST, null, 
+				responseType)
+				.getBody();
+
+		// assertEquals(new
+		// PactConsumerClient(rule.getConfig().url()).consumerSongs(),
+		// Arrays.asList(new PactConsumerSong("Prologue (If I Ever Lose My Faith
+		// in You)", 2)));
+
+		// assertEquals(new
+		// PactConsumerClient(rule.getConfig().url()).consumerSongs(),
+		// Arrays.asList(new PactConsumerSong("Prologue (If I Ever Lose My Faith
+		// in You)", 1),
+		// new PactConsumerSong("Fields of Gold", 2),
+		// new PactConsumerSong("One", 3),
+		// new PactConsumerSong("Mysterious Ways", 4)
+		// ));
 
 	}
 }
